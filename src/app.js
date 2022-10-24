@@ -5,7 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { dbConnect } from "./database/db.js";
 import { bookRouter } from "./routes/book.router.js";
-
+import { providerRouter } from "./routes/provider.router.js";
 
 const app = express();
 
@@ -16,6 +16,7 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/", bookRouter);
+app.use("/", providerRouter);
 
 app.get("/state", (req, res) => {
   res.send("API en linea");
