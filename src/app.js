@@ -6,6 +6,7 @@ import morgan from "morgan";
 import { dbConnect } from "./database/db.js";
 import { bookRouter } from "./routes/book.router.js";
 import { providerRouter } from "./routes/provider.router.js";
+import { saleRouter } from "./routes/sale.router.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(morgan("tiny"));
 
 app.use("/", bookRouter);
 app.use("/", providerRouter);
+app.use("/", saleRouter);
 
 app.get("/state", (req, res) => {
   res.send("API en linea");
