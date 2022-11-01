@@ -7,10 +7,13 @@ import { dbConnect } from "./database/db.js";
 import { bookRouter } from "./routes/book.router.js";
 import { providerRouter } from "./routes/provider.router.js";
 import { saleRouter } from "./routes/sale.router.js";
+import { authRouter } from "./routes/auth.router.js";
 
 const app = express();
 
 const PORT = process.env.PORT || 4000;
+
+import "./config/auth.js";
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +22,7 @@ app.use(morgan("tiny"));
 app.use("/", bookRouter);
 app.use("/", providerRouter);
 app.use("/", saleRouter);
+app.use("/", authRouter);
 
 app.get("/state", (req, res) => {
   res.send("API en linea");
