@@ -4,7 +4,7 @@ import { Provider } from "../models/provider.model.js";
 export const providerRouter = express.Router();
 
 // get all
-providerRouter.get("/providers", async (req, res) => {
+providerRouter.get("/providers",  async (req, res) => {
   const provs = await Provider.find();
   res.json(provs);
 });
@@ -16,7 +16,7 @@ providerRouter.get("/provider/:id", async (req, res) => {
 });
 
 // post
-providerRouter.post("/provider", async (req, res) => {
+providerRouter.post("/provider", providerValidate, async (req, res) => {
   const { code, name, address, location, email, phone_number } = req.body;
   const matchProv = await Provider.findOne({ name: name });
   if (matchProv) {
