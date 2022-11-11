@@ -1,5 +1,6 @@
 import express, { json } from "express";
 import { Sale } from "../models/sale.model.js";
+import { saleValidate } from "../validator/sale.js";
 
 export const saleRouter = express.Router();
 
@@ -16,7 +17,7 @@ saleRouter.get("/sale/:id", async (req, res) => {
 });
 
 // post
-saleRouter.post("/sale", async (req, res) => {
+saleRouter.post("/sale", saleValidate, async (req, res) => {
   const { employee, amount_items, sold_items, total } = req.body;
   const newSale = new Sale({
     employee,
@@ -27,7 +28,6 @@ saleRouter.post("/sale", async (req, res) => {
   await newSale.save();
   res.status(200).send("sale registered succesfully");
 });
-// momgoose populate 
 
 // put
 saleRouter.put("/sale/:id", async (req, res) => {

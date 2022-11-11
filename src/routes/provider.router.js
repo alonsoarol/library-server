@@ -1,5 +1,6 @@
 import express, { json } from "express";
 import { Provider } from "../models/provider.model.js";
+import { providerValidate } from "../validator/provider.js";
 
 export const providerRouter = express.Router();
 

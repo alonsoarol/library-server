@@ -30,7 +30,6 @@ export const providerValidate = [
   check("phone_number")
     .exists()
     .notEmpty()
-    .isNumer()
     .isInt()
     .withMessage("Insert the correct phone number"),
   (req, res, next) => {
