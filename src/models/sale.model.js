@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 const SaleSchema = new Schema({
-  employee: { type: String, requiered: true },
+  employee: { type: Schema.Types.ObjectId, ref:"Account" },
   amount_items: { type: Number, requiered: true },
-  sold_items: { type: Array, requiered: true },
+  sold_items:[{type: Schema.Types.ObjectId, ref:"Book"}],
   total: { type: Number, requiered: true },
-  date: { type: Date, default: Date.now },
+  date: { type: String, requiered: true },
 });
 
 export const Sale = mongoose.model("Sale", SaleSchema, "sale");
