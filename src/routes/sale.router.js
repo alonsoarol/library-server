@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import { Sale } from "../models/sale.model.js";
 import { saleValidate } from "../validator/sale.js";
+import { Book } from "../models/book.model.js";
 
 export const saleRouter = express.Router();
 
@@ -24,7 +25,12 @@ saleRouter.post("/sale", saleValidate, async (req, res) => {
     amount_items,
     sold_items,
     total,
+    date,
   });
+  sold_items.array.forEach(async (element) => {
+    await Book.updateOne({_id: element}, {$inc:{ sold: 1, stock: -1} });
+  });
+
   await newSale.save();
   res.status(200).send("sale registered succesfully");
 });

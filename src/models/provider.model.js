@@ -10,4 +10,4 @@ const ProviderSchema = new Schema({
   phone_number: { type: Number, requiered: true },
 });
 
-export const Provider = mongoose.model("Provider", ProviderSchema, "provider");
+export const Provider = mongoose.model("Provider", ProviderSchema, "providers");
