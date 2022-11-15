@@ -36,7 +36,7 @@ export const providerValidate = [
   check("date")
     .isISO8601()
     .isDate()
-    .withMessage("La fecha  debe ser en formato (yyyy-mm-dd)"),
+    .withMessage("Date must be in the format (yyyy-mm-dd)"),
   
   
   (req, res, next) => {
