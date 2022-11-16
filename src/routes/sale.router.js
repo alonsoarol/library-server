@@ -2,19 +2,32 @@ import express, { json } from "express";
 import { Sale } from "../models/sale.model.js";
 import { saleValidate } from "../validator/sale.js";
 import { Book } from "../models/book.model.js";
+import { Account } from "../models/account.model.js";
 
 export const saleRouter = express.Router();
 
 // get all
+//saleRouter.get("/sales", async (req, res) => {
+  //const sales = await Sale.find();
+  //res.json(sales);
+//});
 saleRouter.get("/sales", async (req, res) => {
   const sales = await Sale.find();
-  res.json(sales);
-});
+  await Account.populate(sales, { path: "Account" },() => {
+      res.json(sales);
+    });
+  });
 
 // get one
 saleRouter.get("/sale/:id", async (req, res) => {
   const sale = await Sale.findById({ _id: req.params.id });
   res.json(sale);
+});
+
+//get one id employee
+saleRouter.get("/sales/byemployee/:id", async (req, res) => {
+  const sale = await Sale.find({ employee: req.params.id });
+  await Book.populate(sale, { path: "sold_items" }, () => res.json(sale));
 });
 
 // post
