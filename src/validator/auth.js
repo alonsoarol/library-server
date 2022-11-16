@@ -12,7 +12,7 @@ export const providerValidate = [
     .exists()
     .notEmpty()
     .isString()
-    .withMessage("Incorrect name"),
+    .withMessage("Incorrect surname"),
   check("email")
     .exists()
     .notEmpty()
@@ -28,11 +28,6 @@ export const providerValidate = [
     .notEmpty()
     .isString()
     .withMessage("Incorrect gender"),
-  check("picturer")
-    .exists()
-    .notEmpty()
-    .isString()
-    .withMessage("Incorrect picture"),
   check("date")
     .isISO8601()
     .isDate()

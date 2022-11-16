@@ -36,12 +36,12 @@ authRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   const account = await Account.findOne({ email: email });
   if (!account) {
-    res.send("Usuario o contraseña inválida(no existe la cuenta)");
+    res.send("Invalid username or password (account does not exist))");
     return;
   }
   const passwordCompared = await bcrypt.compare(password, account.password);
   if (!passwordCompared) {
-    res.send("Usuario o contraseña inválida(password invalido)");
+    res.send("Invalid username or password (invalid password)");
     return;
   }
 

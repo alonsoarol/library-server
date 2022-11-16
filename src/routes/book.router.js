@@ -1,14 +1,21 @@
 import express, { json } from "express";
 import { Book } from "../models/book.model.js";
 import { bookValidate } from "../validator/book.js";
+import { Account } from "../models/account.model.js";
 
 export const bookRouter = express.Router();
 
 // get all
+//bookRouter.get("/books", async (req, res) => {
+  //const books = await Book.find();
+  //res.json(books);
+//});
 bookRouter.get("/books", async (req, res) => {
   const books = await Book.find();
-  res.json(books);
-});
+  await Account.populate(books, { path: "Account" },() => {
+      res.json(books);
+    });
+  });
 
 // get one
 bookRouter.get("/book/:id", async (req, res) => {
@@ -122,6 +129,6 @@ bookRouter.put("/book/:id", async (req, res) => {
 
 // delete
 bookRouter.delete("/book/:id", async (req, res) => {
-  await Book.deleteOne({ id: req.params.id });
+  await Book.deleteOne({ _id: req.params.id });
   res.status(200).send("book was deleted successfully");
 });
