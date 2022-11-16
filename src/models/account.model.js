@@ -8,9 +8,11 @@ const AccountSchema = new Schema({
   password: { type: String, required: true },
   gender: { type: String, requiered: true },
   picture: { type: String, requiered: false },
+
+
   permissions: { 
     type: Object,
-    default: {read: True, write: True, admin:false },
+    default: {read: true, write: true, admin: false },
   },
   date: { type: Date, default: Date.now },
 });
