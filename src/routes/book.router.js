@@ -1,28 +1,24 @@
 import express, { json } from "express";
 import { Book } from "../models/book.model.js";
 import { bookValidate } from "../validator/book.js";
-import { Account } from "../models/account.model.js";
+import { Provider } from "../models/provider.model.js";
 
 export const bookRouter = express.Router();
 
-// get all
-//bookRouter.get("/books", async (req, res) => {
-  //const books = await Book.find();
-  //res.json(books);
-//});
+// obtenemos todos los libros
 bookRouter.get("/books", async (req, res) => {
   const books = await Book.find();
-  await Account.populate(books, { path: "Account" },() => {
-      res.json(books);
-    });
+  await Provider.populate(books, { path: "provider" }, () => {
+    res.json(books);
   });
+});
 
-// get one
+// obtenemos un libro
 bookRouter.get("/book/:id", async (req, res) => {
   const book = await Book.findById({ _id: req.params.id });
   res.json(book);
 });
-// get field
+// obtenemos todos los libros filtrados por campo (asc o desc)
 bookRouter.get("/books/:field/:type", async (req, res) => {
   let books;
   switch (req.params.field) {
@@ -68,12 +64,21 @@ bookRouter.get("/books/:field/:type", async (req, res) => {
       break;
   }
 
-
   res.json(books);
 });
-// post
+// creamos un libro
 bookRouter.post("/book", bookValidate, async (req, res) => {
-  const { code,title,author,category,provider,base_price,public_price,stock,sold, } = req.body;
+  const {
+    code,
+    title,
+    author,
+    category,
+    provider,
+    base_price,
+    public_price,
+    stock,
+    sold,
+  } = req.body;
   const matchBook = await Book.findOne({ title: title });
   if (matchBook) {
     res.status(409).send("The book is already exist");
@@ -94,7 +99,7 @@ bookRouter.post("/book", bookValidate, async (req, res) => {
   res.status(200).send("book registered succesfully");
 });
 
-// put
+// modificamos un libro
 bookRouter.put("/book/:id", async (req, res) => {
   const {
     _id,
@@ -127,8 +132,8 @@ bookRouter.put("/book/:id", async (req, res) => {
   res.status(200).send("book updated successfully");
 });
 
-// delete
+// borramos un libro
 bookRouter.delete("/book/:id", async (req, res) => {
-  await Book.deleteOne({ _id: req.params.id });
+  await Book.deleteOne({ id: req.params.id });
   res.status(200).send("book was deleted successfully");
 });
