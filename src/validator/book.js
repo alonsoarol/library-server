@@ -2,50 +2,32 @@ import { check } from "express-validator";
 import { validateResult } from "../helper/validateHelper.js";
 
 export const bookValidate = [
-  check("code")
-    .exists()
-    .notEmpty()
-    .isString()
-    .withMessage("Enter correct code"),
-  check("title")
-    .exists()
-    .notEmpty()
-    .isString()
-    .withMessage("Incorrect title"),
-  check("author")
-    .exists()
-    .notEmpty()
-    .isString()
-    .withMessage("Enter de correct author"),
+  check("code").exists().notEmpty().isString().withMessage("Wrong code"),
+  check("title").exists().notEmpty().isString().withMessage("Wrong title"),
+  check("author").exists().notEmpty().isString().withMessage("Wrong author"),
   check("category")
     .exists()
     .notEmpty()
     .isString()
-    .withMessage("Incorrect category"),
+    .withMessage("Wrong category"),
   check("provider")
     .exists()
     .notEmpty()
     .isString()
-    .withMessage("Wrong email provider"),
+    .withMessage("Wrong provider"),
   check("base_price")
     .exists()
     .notEmpty()
     .isNumeric()
-    .withMessage("Insert the correct base_price"),
+    .withMessage("Wrong base price"),
   check("public_price")
     .exists()
     .notEmpty()
     .isNumeric()
-    .withMessage("Insert the correct public_price"),
-  check("stock")
-    .exists()
-    .notEmpty()
-    .isNumeric()
-    .withMessage("Insert the correct stock"),
-  
- 
+    .withMessage("Wrong public price"),
+  check("stock").exists().notEmpty().isInt().withMessage("Wrong stock"),
 
   (req, res, next) => {
-        validateResult(req, res, next);
+    validateResult(req, res, next);
   },
 ];

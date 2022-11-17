@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+//Modelo de cuentas
 const { Schema } = mongoose;
 const AccountSchema = new Schema({
   name: { type: String, requiered: true },
@@ -8,15 +8,11 @@ const AccountSchema = new Schema({
   password: { type: String, required: true },
   gender: { type: String, requiered: true },
   picture: { type: String, requiered: false },
-
-
-  permissions: { 
+  permissions: {
     type: Object,
-    default: {read: true, write: true, admin: false },
+    default: { read: true, write: true, admin: false },
   },
-  date: { type: Date, default: Date.now },
+  date: { type: String, required: true },
 });
 
 export const Account = mongoose.model("Account", AccountSchema, "accounts");
-
-

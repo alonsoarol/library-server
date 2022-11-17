@@ -1,5 +1,6 @@
 import { validationResult } from "express-validator";
 
+//creamos el middleware para validar
 export const validateResult = (req, res, next) => {
   try {
     validationResult(req).throw();

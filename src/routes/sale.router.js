@@ -6,33 +6,29 @@ import { Account } from "../models/account.model.js";
 
 export const saleRouter = express.Router();
 
-// get all
-//saleRouter.get("/sales", async (req, res) => {
-  //const sales = await Sale.find();
-  //res.json(sales);
-//});
+// obtener todas las ventas
 saleRouter.get("/sales", async (req, res) => {
   const sales = await Sale.find();
-  await Account.populate(sales, { path: "Account" },() => {
-      res.json(sales);
-    });
+  await Account.populate(sales, { path: "employee" }, () => {
+    res.json(sales);
   });
+});
 
-// get one
+// obtener una sola venta(id venta)
 saleRouter.get("/sale/:id", async (req, res) => {
   const sale = await Sale.findById({ _id: req.params.id });
   res.json(sale);
 });
 
-//get one id employee
-saleRouter.get("/sales/byemployee/:id", async (req, res) => {
+//obtener todas las ventas de un empleado(id empleado)
+saleRouter.get("/sale/byemployee/:id", async (req, res) => {
   const sale = await Sale.find({ employee: req.params.id });
   await Book.populate(sale, { path: "sold_items" }, () => res.json(sale));
 });
 
-// post
-saleRouter.post("/sale", saleValidate, async (req, res) => {
-  const { employee, amount_items, sold_items, total } = req.body;
+// creamos una nueva venta
+saleRouter.post("/sale", async (req, res) => {
+  const { employee, amount_items, sold_items, total, date } = req.body;
   const newSale = new Sale({
     employee,
     amount_items,
@@ -40,15 +36,16 @@ saleRouter.post("/sale", saleValidate, async (req, res) => {
     total,
     date,
   });
-  sold_items.array.forEach(async (element) => {
-    await Book.updateOne({_id: element}, {$inc:{ sold: 1, stock: -1} });
+  sold_items.forEach(async (element) => {
+    //recorremos cada item de la venta y le modificamos sold y stock
+    await Book.updateOne({ _id: element }, { $inc: { sold: 1, stock: -1 } });
   });
 
   await newSale.save();
   res.status(200).send("sale registered succesfully");
 });
 
-// put
+// modificamos una venta(id venta)
 saleRouter.put("/sale/:id", async (req, res) => {
   const { _id, employee, amount_items, sold_items, total } = req.body;
   await Sale.updateOne(
@@ -58,7 +55,7 @@ saleRouter.put("/sale/:id", async (req, res) => {
   res.status(200).send("sale updated successfully");
 });
 
-// delete
+// borramos una venta
 saleRouter.delete("/sale/:id", async (req, res) => {
   await Sale.deleteOne({ _id: req.params.id });
   res.status(200).send("sale was deleted successfully");

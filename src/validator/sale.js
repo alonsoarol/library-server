@@ -2,7 +2,6 @@ import { check } from "express-validator";
 import { validateResult } from "../helper/validateHelper.js";
 
 export const saleValidate = [
-  
   check("employee")
     .exists()
     .notEmpty()
@@ -11,21 +10,23 @@ export const saleValidate = [
   check("amount_items")
     .exists()
     .notEmpty()
-    .isInt()
-    .withMessage("Insert the correct amount_items"),
+    .isNumeric()
+    .withMessage("Wrong amount items"),
   check("sold_items")
     .exists()
     .notEmpty()
-    .isInt()
-    .withMessage("Insert the correct sold_items"),
-  check("total")
+    .isArray()
+    .withMessage("Wrong sold items"),
+  check("total").exists().notEmpty().isNumeric().withMessage("Wrong total"),
+  check("date")
     .exists()
     .notEmpty()
-    .isInt()
-    .withMessage("Insert the correct total"),
-  
+    .isString()
+    .isISO8601()
+    .withMessage("the Date format should be ISO8601 (yyyy-mm-dd)"),
 
+  ,
   (req, res, next) => {
-        validateResult(req, res, next);
+    validateResult(req, res, next);
   },
 ];
