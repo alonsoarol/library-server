@@ -134,6 +134,6 @@ bookRouter.put("/book/:id", async (req, res) => {
 
 // borramos un libro
 bookRouter.delete("/book/:id", async (req, res) => {
-  await Book.deleteOne({ id: req.params.id });
+  await Book.deleteOne({ _id: req.params.id });
   res.status(200).send("book was deleted successfully");
 });
