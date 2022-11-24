@@ -12,7 +12,7 @@ const AccountSchema = new Schema({
     type: Object,
     default: { read: true, write: true, admin: false },
   },
-  date: { type: String, required: true },
+  // date: { type: String, required: true },
 });
 
 export const Account = mongoose.model("Account", AccountSchema, "accounts");
